@@ -75,7 +75,6 @@
 			font-size: 34px;
 			line-height: 46px;
 			width: 316px;
-			text-align: center;
 			font-weight: 300;
 			height: 46px;
 		}
@@ -88,6 +87,7 @@
 			text-decoration: underline;
 		}
 	</style>
+	<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
 	<script>
 		// Fridge (0)
 		var fridgeDescriptions = [
@@ -111,6 +111,8 @@
 		}
 		
 		function loadNewQuestion() {
+			hideResults();
+			
 			var descriptionType;
 			var selection;
 			
@@ -126,7 +128,23 @@
 			previousDescriptionType = descriptionType;
 			previousSelection = selection;
 			
-			document.getElementById("description-text").innerText = descriptions[selection];
+			$("#description-text").text(descriptions[selection]);
+		}
+		
+		function hideResults() {
+			$("#choiceComputer");
+			$("#choiceFridge");
+			
+			$("#correctOrIncorrect").fadeOut(300);
+			$("#playAgain").fadeOut(300);
+		}
+		
+		function showResults() {
+			$("#choiceComputer");
+			$("#choiceFridge");
+			
+			$("#correctOrIncorrect").fadeIn(500);
+			$("#playAgain").delay(800).fadeIn(500);
 		}
 		
 		function answerQuestion(type) {
@@ -139,18 +157,20 @@
 				return;
 			}
 			
+			// Whether or not the answer was correct.
+			var correct = response == previousDescriptionType;
+			
 			// If the response was correct.
-			if ( response == previousDescriptionType ) {
-				alert("YES");
+			if ( correct ) {
+				// Correct.
+				$("#correctOrIncorrect").text("Correct.");
 			} else {
-				alert("NO");
+				// Incorrect.
+				$("#correctOrIncorrect").text("Incorrect.");
 			}
 			
-			// Whether or not the answer was correct.
-			var correct;
-			
-			// Load a new question.
-			loadNewQuestion();
+			// Fade in results.
+			showResults();
 		}
 		
 		window.onload = function() {
@@ -169,7 +189,10 @@
 			</span>
 		</div>
 		<div id="choice" class="centered">
-			<a onclick="answerQuestion('computer')">Computer</a> or <a onclick="answerQuestion('fridge')">Fridge</a>?
+			<a id="choiceComputer" onclick="answerQuestion('computer')">Computer</a> or <a id="choiceFridge" onclick="answerQuestion('fridge')">Fridge</a>?
+		</div>
+		<div id="result" class="centered">
+			<span id="correctOrIncorrect" style="display: none;"></span> <span id="playAgain" style="display: none;">Play again <a onclick="loadNewQuestion()">></a></span>
 		</div>
 	</div>
 </body>
