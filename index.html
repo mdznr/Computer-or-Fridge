@@ -82,6 +82,7 @@
 		a, a:hover, a:active, a:visited {
 			color: #1A8CFF;
 			text-decoration: none;
+			cursor: pointer;
 		}
 		a:hover {
 			text-decoration: underline;
@@ -93,7 +94,7 @@
 		var fridgeDescriptions = ["1 x RS22HDHPNSR/AA 35 3/4\" x 69 1/4\" x 29 1/2\" ($2,159.99) 1 x NSF42 DA29-0003G 1 x R134a 1 x HAFCU1 @ 646 kWh/yr; R-600a/R-134a. Transmitter Module: A3LSWL-B70F. ASIN: B00IQACA8Q. IEEE 802.11 a/b/g/n WEP, WPAPSK, WPA2PSK on WEP, TKIP, AES. Tier III ES. LED Tower Lighting with TWIN COOLING PLuS&trade;. Multi Air Flow, Six (6) Temperature Sensors.", "fridge"];
 		
 		// Previous description.
-		var previousChoice = -1;
+		var previousDescriptionType = -1;
 		var previousSelection = -1;
 		
 		function getRandomInt(min, max) {
@@ -101,15 +102,27 @@
 		}
 		
 		function loadNewQuestion() {
-			var answer = getRandomInt(0, 1);
-			var choices;
-			if ( answer == 1 ) {
-				choices = computerDescriptions;
-			} else {
-				choices = fridgeDescriptions;
-			}
-			var selection = getRandomInt(0, choices.length-1);
-			document.getElementById("description-text").innerText = choices[selection];
+			var descriptionType;
+			var selection;
+			
+			do {
+				descriptionType = getRandomInt(0, 1);
+				
+				var descriptions;
+				// descrptions = descriptionType ? computerDescriptions : fridgeDescriptions;
+				if ( descriptionType == 1 ) {
+					descriptions = computerDescriptions;
+				} else {
+					descriptions = fridgeDescriptions;
+				}
+				
+				selection = getRandomInt(0, descriptions.length-1);
+			} while ( selection == previousSelection && descriptionType == previousDescriptionType );
+			
+			previousDescriptionType = descriptionType;
+			previousSelection = selection;
+			
+			document.getElementById("description-text").innerText = descriptions[selection];
 		}
 		
 		window.onload = function() {
@@ -125,7 +138,7 @@
 			</span>
 		</div>
 		<div id="choice" class="centered">
-			<a href="">Computer</a> or <a href="">Fridge</a>?
+			<a onclick="loadNewQuestion()">Computer</a> or <a onclick="loadNewQuestion()">Fridge</a>?
 		</div>
 	</div>
 </body>
