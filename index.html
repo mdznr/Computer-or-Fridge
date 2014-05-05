@@ -76,7 +76,7 @@
 			line-height: 46px;
 			width: 316px;
 			text-align: center;
-			font-weight: 200;
+			font-weight: 300;
 			height: 46px;
 		}
 		a, a:hover, a:active, a:visited {
@@ -89,14 +89,23 @@
 		}
 	</style>
 	<script>
-		var computerDescriptions = ["1 x ($29.98) CPUCOOL|ARCTIC FREEZER 7 PRO REV.2 $29.98 1 x ($229.99) VGA EVGA|01G-P3-1560-KR 560TI 1G R $229.99 1 x ($29.99) GIFT FUTUREMARK SHATTERED HORIZONS $29.99 1 x ($49.99) MEM 2Gx2|GSKILL F3-10666CL7D-4GBRH $49.99 1 x ($41.99) HD 320G|WD 7K 8M SATA2 WD3200AAJS % - OEM $41.99 1 x ($104.99) MB MSI|P67S-C43 (B3) P67 LGA1155 R $104.99 1 x ($189.99) CPU INTEL|CORE I5 2400 3.1G 6M R $189.99 1 x ($54.99) PSU ANTEC| NEO ECO 520C 520W RT $54.99 1 x ($5.99) CASE FAN|ROSEWILL RFA-120-K R $5.99 1 x (~$35) CD/DVD RW", "computer"];
+		// Fridge (0)
+		var fridgeDescriptions = [
+		"1 x RS22HDHPNSR/AA 35 3/4\" x 69 1/4\" x 29 1/2\" ($2,159.99) 1 x NSF42 DA29-0003G 1 x R134a 1 x HAFCU1 @ 646 kWh/yr; R-600a/R-134a. Transmitter Module: A3LSWL-B70F. ASIN: B00IQACA8Q. IEEE 802.11 a/b/g/n WEP, WPAPSK, WPA2PSK on WEP, TKIP, AES. Tier III ES. LED Tower Lighting with TWIN COOLING PLuS&trade;. Multi Air Flow, Six (6) Temperature Sensors.",
+		"fridge"
+		];
 		
-		var fridgeDescriptions = ["1 x RS22HDHPNSR/AA 35 3/4\" x 69 1/4\" x 29 1/2\" ($2,159.99) 1 x NSF42 DA29-0003G 1 x R134a 1 x HAFCU1 @ 646 kWh/yr; R-600a/R-134a. Transmitter Module: A3LSWL-B70F. ASIN: B00IQACA8Q. IEEE 802.11 a/b/g/n WEP, WPAPSK, WPA2PSK on WEP, TKIP, AES. Tier III ES. LED Tower Lighting with TWIN COOLING PLuS&trade;. Multi Air Flow, Six (6) Temperature Sensors.", "fridge"];
+		// Computer (1)
+		var computerDescriptions = [
+		"1 x ($29.98) CPUCOOL|ARCTIC FREEZER 7 PRO REV.2 $29.98 1 x ($229.99) VGA EVGA|01G-P3-1560-KR 560TI 1G R $229.99 1 x ($29.99) GIFT FUTUREMARK SHATTERED HORIZONS $29.99 1 x ($49.99) MEM 2Gx2|GSKILL F3-10666CL7D-4GBRH $49.99 1 x ($41.99) HD 320G|WD 7K 8M SATA2 WD3200AAJS % - OEM $41.99 1 x ($104.99) MB MSI|P67S-C43 (B3) P67 LGA1155 R $104.99 1 x ($189.99) CPU INTEL|CORE I5 2400 3.1G 6M R $189.99 1 x ($54.99) PSU ANTEC| NEO ECO 520C 520W RT $54.99 1 x ($5.99) CASE FAN|ROSEWILL RFA-120-K R $5.99 1 x (~$35) CD/DVD RW",
+		"computer"
+		];
 		
 		// Previous description.
 		var previousDescriptionType = -1;
 		var previousSelection = -1;
 		
+		// Helper function for generating random integers in a range.
 		function getRandomInt(min, max) {
 			return Math.floor(Math.random() * (max - min + 1)) + min;
 		}
@@ -125,11 +134,38 @@
 			document.getElementById("description-text").innerText = descriptions[selection];
 		}
 		
+		function answerQuestion(type) {
+			var response;
+			if ( type === "computer" ) {
+				response = 1;
+			} else if ( type === "fridge") {
+				response = 0;
+			} else {
+				return;
+			}
+			
+			// If the response was correct.
+			if ( response == previousDescriptionType ) {
+				alert("YES");
+			} else {
+				alert("NO");
+			}
+			
+			// Whether or not the answer was correct.
+			var correct;
+			
+			// Load a new question.
+			loadNewQuestion();
+		}
+		
 		window.onload = function() {
 			loadNewQuestion();
 		}
 		
 	</script>
+	
+	<!-- Open Sans -->
+	<link href="http://brick.a.ssl.fastly.net/Open+Sans:400,300,600" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<div id="content">
@@ -138,7 +174,7 @@
 			</span>
 		</div>
 		<div id="choice" class="centered">
-			<a onclick="loadNewQuestion()">Computer</a> or <a onclick="loadNewQuestion()">Fridge</a>?
+			<a onclick="answerQuestion('computer')">Computer</a> or <a onclick="answerQuestion('fridge')">Fridge</a>?
 		</div>
 	</div>
 </body>
