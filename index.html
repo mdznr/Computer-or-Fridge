@@ -118,12 +118,7 @@
 				descriptionType = getRandomInt(0, 1);
 				
 				var descriptions;
-				// descrptions = descriptionType ? computerDescriptions : fridgeDescriptions;
-				if ( descriptionType == 1 ) {
-					descriptions = computerDescriptions;
-				} else {
-					descriptions = fridgeDescriptions;
-				}
+				descriptions = descriptionType ? computerDescriptions : fridgeDescriptions;
 				
 				selection = getRandomInt(0, descriptions.length-1);
 			} while ( selection == previousSelection && descriptionType == previousDescriptionType );
