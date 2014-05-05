@@ -92,13 +92,21 @@
 		// Fridge (0)
 		var fridgeDescriptions = [
 		"1 x RS22HDHPNSR/AA 35 3/4\" x 69 1/4\" x 29 1/2\" ($2,159.99) 1 x NSF42 DA29-0003G 1 x R134a 1 x HAFCU1 @ 646 kWh/yr; R-600a/R-134a. Transmitter Module: A3LSWL-B70F. ASIN: B00IQACA8Q. IEEE 802.11 a/b/g/n WEP, WPAPSK, WPA2PSK on WEP, TKIP, AES. Tier III ES. LED Tower Lighting with TWIN COOLING PLuS&trade;. Multi Air Flow, Six (6) Temperature Sensors.",
-		"fridge"
+		"SMART THINQ&trade; TECHNOLOGY. SmartDiagnosis&trade;. SmoothTouch&trade;. 6th Sense Live&trade; Technology. Smart Assistant. Smart Stats.",
+		"RF4289. RF4289HARS. Transmitter Module: A3LDNURS11. DLNA. IEEE802.11b/g/n. SD/SDHC/MMC/HS MMC. 8\" LCD Digital Display with Apps. LED Lighting. Twin Cooling Plus System&reg;. CEE Tier II.",
+		"STEVAL-IHT006V1. 640b EEPROM. STM8S103F2P6 MCU. VIPer16 power supply. 4 kB of Flash memory; 10-bit A-D converter. 16 MHz. STN790A PNP. IEC 61000-4-4.",
+		"Samsung T9000",
+		"STEVAL-IHT006V1. 640b EEPROM. STM8S103F2P6 MCU. VIPer16 power supply. 4 kB of Flash memory; 10-bit A-D converter. 16 MHz. STN790A PNP. IEC 61000-4-4.",
+		"Gorenje NRK67358SB Black. EAN 3838942409899. Not Integrated. SuperCool&trade;. 2 compressors TwinPower&trade;. Multiflow.",
+		"STEVAL-IHT001V1. ACS102-6TA in T0-92 with 0.2 A RMS.",
+		"LFX25974SW. Five (5) Temperature Sensors. Linear compressor. LED Display. SmartDiagnosis&trade;."
 		];
 		
 		// Computer (1)
 		var computerDescriptions = [
 		"1 x ($29.98) CPUCOOL|ARCTIC FREEZER 7 PRO REV.2 $29.98 1 x ($229.99) VGA EVGA|01G-P3-1560-KR 560TI 1G R $229.99 1 x ($29.99) GIFT FUTUREMARK SHATTERED HORIZONS $29.99 1 x ($49.99) MEM 2Gx2|GSKILL F3-10666CL7D-4GBRH $49.99 1 x ($41.99) HD 320G|WD 7K 8M SATA2 WD3200AAJS % - OEM $41.99 1 x ($104.99) MB MSI|P67S-C43 (B3) P67 LGA1155 R $104.99 1 x ($189.99) CPU INTEL|CORE I5 2400 3.1G 6M R $189.99 1 x ($54.99) PSU ANTEC| NEO ECO 520C 520W RT $54.99 1 x ($5.99) CASE FAN|ROSEWILL RFA-120-K R $5.99 1 x (~$35) CD/DVD RW",
-		"computer"
+		"X51. AX51R2-1430BK. P/N: AX51R2-1430BK. Non-ECC CL11 SODIMM (KVR16S11/8) 1x2GB+1x4GB DDR3L 1600Mh (PC3-12800) . i3-4130 BX80646I34130. Matte black/Chrome accents.",
+		"CORSAIR H100i (Hydro Series)."
 		];
 		
 		// Previous description.
@@ -128,20 +136,38 @@
 			previousDescriptionType = descriptionType;
 			previousSelection = selection;
 			
-			$("#description-text").text(descriptions[selection]);
+			// $("#description-text").fadeOut(200);
+			$("#description-text").html(descriptions[selection]);
+			// $("#description-text").delay(200).fadeIn(200);
 		}
 		
+		function bindChoices() {
+			$("#choiceComputer").click(function(){
+				answerQuestion("computer");
+			});
+			$("#choiceFridge").click(function(){
+				answerQuestion("fridge");
+			});
+		}
+		
+		/*
+		function unbindChoices() {
+			$("#choiceComputer").unbind(click, true);
+			$("#choiceFridge").unbind(click, true);
+		}
+		*/
+		
 		function hideResults() {
-			$("#choiceComputer");
-			$("#choiceFridge");
+			// Prevent clicking on answer again.
+			// bindChoices();
 			
-			$("#correctOrIncorrect").fadeOut(300);
-			$("#playAgain").fadeOut(300);
+			$("#correctOrIncorrect").fadeOut(200);
+			$("#playAgain").fadeOut(200);
 		}
 		
 		function showResults() {
-			$("#choiceComputer");
-			$("#choiceFridge");
+			// Prevent clicking on answer again.
+			// unbindChoices();
 			
 			$("#correctOrIncorrect").fadeIn(500);
 			$("#playAgain").delay(800).fadeIn(500);
@@ -175,6 +201,7 @@
 		
 		window.onload = function() {
 			loadNewQuestion();
+			bindChoices();
 		}
 		
 	</script>
@@ -189,10 +216,10 @@
 			</span>
 		</div>
 		<div id="choice" class="centered">
-			<a id="choiceComputer" onclick="answerQuestion('computer')">Computer</a> or <a id="choiceFridge" onclick="answerQuestion('fridge')">Fridge</a>?
+			<a id="choiceComputer">Computer</a> or <a id="choiceFridge" onclick="answerQuestion('fridge')">Fridge</a>?
 		</div>
 		<div id="result" class="centered">
-			<span id="correctOrIncorrect" style="display: none;"></span> <span id="playAgain" style="display: none;">Play again <a onclick="loadNewQuestion()">></a></span>
+			<span id="correctOrIncorrect" style="display: none;"></span> <span id="playAgain" style="display: none;"> <a onclick="loadNewQuestion()">Play again</a></span>
 		</div>
 	</div>
 </body>
